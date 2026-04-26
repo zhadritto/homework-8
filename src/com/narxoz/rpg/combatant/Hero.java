@@ -1,11 +1,7 @@
 package com.narxoz.rpg.combatant;
 
-/**
- * Represents a player-controlled hero participating in the tower climb.
- *
- * Students: you may extend this class as needed for your implementation.
- * You will need to add a HeroState field and related methods.
- */
+import com.narxoz.rpg.state.HeroState;
+import com.narxoz.rpg.state.NormalState;
 public class Hero {
 
     private final String name;
@@ -13,6 +9,7 @@ public class Hero {
     private final int maxHp;
     private final int attackPower;
     private final int defense;
+    private HeroState state;
 
     public Hero(String name, int hp, int attackPower, int defense) {
         this.name = name;
@@ -20,6 +17,7 @@ public class Hero {
         this.maxHp = hp;
         this.attackPower = attackPower;
         this.defense = defense;
+        this.state = new NormalState(); // Default state
     }
 
     public String getName()        { return name; }
@@ -28,22 +26,55 @@ public class Hero {
     public int getAttackPower()    { return attackPower; }
     public int getDefense()        { return defense; }
     public boolean isAlive()       { return hp > 0; }
+    public HeroState getState()    { return state; }
+    public void setState(HeroState newState) {
+        this.state = newState;
+    }
 
-    /**
-     * Reduces this hero's HP by the given amount, clamped to zero.
-     *
-     * @param amount the damage to apply; must be non-negative
-     */
+
     public void takeDamage(int amount) {
         hp = Math.max(0, hp - amount);
     }
 
-    /**
-     * Restores this hero's HP by the given amount, clamped to maxHp.
-     *
-     * @param amount the HP to restore; must be non-negative
-     */
     public void heal(int amount) {
         hp = Math.min(maxHp, hp + amount);
+    }
+
+
+    public void onTurnStart() {
+        state.onTurnStart(this);
+    }
+
+
+    public void onTurnEnd() {
+        state.onTurnEnd(this);
+    }
+
+
+    public boolean canAct() {
+        return state.canAct();
+    }
+
+
+    public void attack(Monster monster) {
+        if (!canAct()) {
+            return;
+        }
+
+        int baseDamage = Math.max(1, attackPower - monster.getDefense());
+        int finalDamage = state.modifyOutgoingDamage(baseDamage);
+
+        System.out.println("  " + name + " attacks " + monster.getName() + " for " + finalDamage + " damage!");
+        monster.takeDamage(finalDamage);
+
+        if (!monster.isAlive()) {
+            System.out.println("  " + monster.getName() + " has been defeated!");
+        }
+    }
+
+    public void takeDamageFromEnemy(int rawDamage) {
+        int finalDamage = state.modifyIncomingDamage(rawDamage);
+        finalDamage = Math.max(1, finalDamage - defense);
+        takeDamage(finalDamage);
     }
 }
