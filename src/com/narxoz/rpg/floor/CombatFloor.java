@@ -4,8 +4,8 @@ import com.narxoz.rpg.combatant.Hero;
 import com.narxoz.rpg.combatant.Monster;
 import java.util.ArrayList;
 import java.util.List;
-public class CombatFloor extends TowerFloor {
 
+public class CombatFloor extends TowerFloor {
     private final String floorName;
     private List<Monster> monsters;
     private int totalDamageTaken;
@@ -16,9 +16,7 @@ public class CombatFloor extends TowerFloor {
     }
 
     @Override
-    protected String getFloorName() {
-        return floorName;
-    }
+    protected String getFloorName() { return floorName; }
 
     @Override
     protected void setup(List<Hero> party) {
@@ -32,8 +30,8 @@ public class CombatFloor extends TowerFloor {
     @Override
     protected FloorResult resolveChallenge(List<Hero> party) {
         System.out.println("\n--- Combat Begins ---");
-
         int round = 1;
+
         while (hasLivingMonsters() && hasLivingHeroes(party)) {
             System.out.println("\n[Round " + round + "]");
 
@@ -42,18 +40,20 @@ public class CombatFloor extends TowerFloor {
 
                 hero.onTurnStart();
 
-                if (hero.canAct() && hasLivingMonsters()) {
+
+                if (hero.isAlive() && hero.canAct() && hasLivingMonsters()) {
                     Monster target = getFirstLivingMonster();
                     hero.attack(target);
                 }
 
-                hero.onTurnEnd();
+                if (hero.isAlive()) {
+                    hero.onTurnEnd();
+                }
             }
 
             if (hasLivingMonsters()) {
                 for (Monster monster : monsters) {
                     if (!monster.isAlive()) continue;
-
                     Hero target = getRandomLivingHero(party);
                     if (target != null) {
                         int hpBefore = target.getHp();
@@ -62,13 +62,11 @@ public class CombatFloor extends TowerFloor {
                     }
                 }
             }
-
             round++;
         }
 
         boolean cleared = hasLivingHeroes(party);
         String summary = cleared ? "Victory! All monsters defeated." : "Defeat! All heroes have fallen.";
-
         System.out.println("\n" + summary);
         return new FloorResult(cleared, totalDamageTaken, summary);
     }
@@ -95,10 +93,7 @@ public class CombatFloor extends TowerFloor {
     }
 
     private Monster getFirstLivingMonster() {
-        return monsters.stream()
-                .filter(Monster::isAlive)
-                .findFirst()
-                .orElse(null);
+        return monsters.stream().filter(Monster::isAlive).findFirst().orElse(null);
     }
 
     private Hero getRandomLivingHero(List<Hero> party) {

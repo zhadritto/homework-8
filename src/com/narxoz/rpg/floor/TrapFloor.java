@@ -4,9 +4,7 @@ import com.narxoz.rpg.combatant.Hero;
 import com.narxoz.rpg.state.*;
 import java.util.List;
 
-
 public class TrapFloor extends TowerFloor {
-
     private final String floorName;
     private final String trapType;
 
@@ -16,9 +14,7 @@ public class TrapFloor extends TowerFloor {
     }
 
     @Override
-    protected String getFloorName() {
-        return floorName;
-    }
+    protected String getFloorName() { return floorName; }
 
     @Override
     protected void setup(List<Hero> party) {
@@ -28,8 +24,6 @@ public class TrapFloor extends TowerFloor {
     @Override
     protected FloorResult resolveChallenge(List<Hero> party) {
         System.out.println("\n--- TRAP TRIGGERED! ---");
-
-        int totalDamage = 0;
 
         switch (trapType) {
             case "poison":
@@ -41,7 +35,6 @@ public class TrapFloor extends TowerFloor {
                     }
                 }
                 break;
-
             case "stun":
                 System.out.println("A flash of blinding light stuns everyone!");
                 for (Hero hero : party) {
@@ -51,7 +44,6 @@ public class TrapFloor extends TowerFloor {
                     }
                 }
                 break;
-
             case "gas":
                 System.out.println("Strange vapors cloud your minds...");
                 for (Hero hero : party) {
@@ -61,13 +53,11 @@ public class TrapFloor extends TowerFloor {
                     }
                 }
                 break;
-
             default:
                 System.out.println("Unknown trap type!");
         }
 
-        String summary = "The party survived the trap.";
-        return new FloorResult(true, totalDamage, summary);
+        return new FloorResult(true, 0, "The party survived the trap.");
     }
 
     @Override

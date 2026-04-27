@@ -2,8 +2,8 @@ package com.narxoz.rpg.combatant;
 
 import com.narxoz.rpg.state.HeroState;
 import com.narxoz.rpg.state.NormalState;
-public class Hero {
 
+public class Hero {
     private final String name;
     private int hp;
     private final int maxHp;
@@ -17,7 +17,7 @@ public class Hero {
         this.maxHp = hp;
         this.attackPower = attackPower;
         this.defense = defense;
-        this.state = new NormalState(); // Default state
+        this.state = new NormalState();
     }
 
     public String getName()        { return name; }
@@ -27,10 +27,10 @@ public class Hero {
     public int getDefense()        { return defense; }
     public boolean isAlive()       { return hp > 0; }
     public HeroState getState()    { return state; }
+
     public void setState(HeroState newState) {
         this.state = newState;
     }
-
 
     public void takeDamage(int amount) {
         hp = Math.max(0, hp - amount);
@@ -40,26 +40,21 @@ public class Hero {
         hp = Math.min(maxHp, hp + amount);
     }
 
-
     public void onTurnStart() {
         state.onTurnStart(this);
     }
-
 
     public void onTurnEnd() {
         state.onTurnEnd(this);
     }
 
-
     public boolean canAct() {
         return state.canAct();
     }
 
-
     public void attack(Monster monster) {
-        if (!canAct()) {
-            return;
-        }
+        if (!isAlive()) return;
+        if (!canAct()) return;
 
         int baseDamage = Math.max(1, attackPower - monster.getDefense());
         int finalDamage = state.modifyOutgoingDamage(baseDamage);

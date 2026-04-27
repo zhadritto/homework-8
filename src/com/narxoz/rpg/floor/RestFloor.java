@@ -3,12 +3,10 @@ package com.narxoz.rpg.floor;
 import com.narxoz.rpg.combatant.Hero;
 import com.narxoz.rpg.state.RegeneratingState;
 import java.util.List;
-public class RestFloor extends TowerFloor {
 
+public class RestFloor extends TowerFloor {
     @Override
-    protected String getFloorName() {
-        return "Peaceful Shrine";
-    }
+    protected String getFloorName() { return "Peaceful Shrine"; }
 
     @Override
     protected void setup(List<Hero> party) {
@@ -18,24 +16,18 @@ public class RestFloor extends TowerFloor {
     @Override
     protected FloorResult resolveChallenge(List<Hero> party) {
         System.out.println("\n--- The party rests ---");
-
-        int totalHealing = 0;
-
         for (Hero hero : party) {
             if (hero.isAlive()) {
                 int hpBefore = hero.getHp();
                 hero.heal(15);
                 int actualHealing = hero.getHp() - hpBefore;
-                totalHealing += actualHealing;
 
                 System.out.println("  " + hero.getName() + " rests and recovers " + actualHealing + " HP");
                 System.out.println("  " + hero.getName() + " feels rejuvenated!");
                 hero.setState(new RegeneratingState());
             }
         }
-
-        String summary = "The party is refreshed and ready to continue.";
-        return new FloorResult(true, 0, summary);
+        return new FloorResult(true, 0, "The party is refreshed and ready to continue.");
     }
 
     @Override

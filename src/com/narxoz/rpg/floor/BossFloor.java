@@ -2,10 +2,9 @@ package com.narxoz.rpg.floor;
 
 import com.narxoz.rpg.combatant.Hero;
 import com.narxoz.rpg.combatant.Monster;
-import java.util.ArrayList;
 import java.util.List;
-public class BossFloor extends TowerFloor {
 
+public class BossFloor extends TowerFloor {
     private Monster boss;
     private int totalDamageTaken;
 
@@ -14,9 +13,7 @@ public class BossFloor extends TowerFloor {
     }
 
     @Override
-    protected String getFloorName() {
-        return "Boss Chamber";
-    }
+    protected String getFloorName() { return "Boss Chamber"; }
 
     @Override
     protected void announce() {
@@ -42,22 +39,23 @@ public class BossFloor extends TowerFloor {
         while (boss.isAlive() && hasLivingHeroes(party)) {
             System.out.println("\n[Round " + round + "]");
             System.out.println("Boss HP: " + boss.getHp());
+
             for (Hero hero : party) {
                 if (!hero.isAlive()) continue;
 
                 hero.onTurnStart();
 
-                if (hero.canAct() && boss.isAlive()) {
+                if (hero.isAlive() && hero.canAct() && boss.isAlive()) {
                     hero.attack(boss);
                 }
 
-                hero.onTurnEnd();
+                if (hero.isAlive()) {
+                    hero.onTurnEnd();
+                }
             }
 
             if (boss.isAlive()) {
                 System.out.println("\n" + boss.getName() + " unleashes a devastating attack!");
-
-                // Boss attacks all heroes
                 for (Hero hero : party) {
                     if (hero.isAlive()) {
                         int hpBefore = hero.getHp();
@@ -66,7 +64,6 @@ public class BossFloor extends TowerFloor {
                     }
                 }
             }
-
             round++;
         }
 
@@ -84,7 +81,6 @@ public class BossFloor extends TowerFloor {
         if (result.isCleared()) {
             System.out.println("\n★ LEGENDARY LOOT ACQUIRED ★");
             System.out.println("The boss drops powerful treasures!");
-
             for (Hero hero : party) {
                 if (hero.isAlive()) {
                     hero.heal(25);

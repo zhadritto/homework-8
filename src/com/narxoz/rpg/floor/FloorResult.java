@@ -1,6 +1,6 @@
 package com.narxoz.rpg.floor;
-public class FloorResult {
 
+public class FloorResult {
     private final boolean cleared;
     private final int damageTaken;
     private final String summary;

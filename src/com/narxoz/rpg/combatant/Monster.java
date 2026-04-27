@@ -1,6 +1,6 @@
 package com.narxoz.rpg.combatant;
-public class Monster {
 
+public class Monster {
     private final String name;
     private int hp;
     private final int attackPower;
@@ -12,6 +12,7 @@ public class Monster {
         this.attackPower = attackPower;
         this.defense = defense;
     }
+
     public Monster(String name, int hp, int attackPower) {
         this(name, hp, attackPower, 0);
     }
@@ -21,6 +22,7 @@ public class Monster {
     public int getAttackPower()   { return attackPower; }
     public int getDefense()       { return defense; }
     public boolean isAlive()      { return hp > 0; }
+
     public void takeDamage(int amount) {
         hp = Math.max(0, hp - amount);
     }

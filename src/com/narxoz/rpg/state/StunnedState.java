@@ -1,8 +1,8 @@
 package com.narxoz.rpg.state;
 
 import com.narxoz.rpg.combatant.Hero;
-public class StunnedState implements HeroState {
 
+public class StunnedState implements HeroState {
     private int turnsRemaining;
 
     public StunnedState() {
@@ -10,14 +10,10 @@ public class StunnedState implements HeroState {
     }
 
     @Override
-    public String getName() {
-        return "Stunned";
-    }
+    public String getName() { return "Stunned"; }
 
     @Override
-    public int modifyOutgoingDamage(int basePower) {
-        return 0;
-    }
+    public int modifyOutgoingDamage(int basePower) { return 0; }
 
     @Override
     public int modifyIncomingDamage(int rawDamage) {
@@ -32,7 +28,6 @@ public class StunnedState implements HeroState {
     @Override
     public void onTurnEnd(Hero hero) {
         turnsRemaining--;
-
         if (turnsRemaining <= 0) {
             System.out.println("  " + hero.getName() + " recovers from being stunned!");
             hero.setState(new NormalState());
@@ -40,7 +35,5 @@ public class StunnedState implements HeroState {
     }
 
     @Override
-    public boolean canAct() {
-        return false;
-    }
+    public boolean canAct() { return false; }
 }

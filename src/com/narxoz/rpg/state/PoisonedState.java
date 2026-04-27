@@ -1,8 +1,8 @@
 package com.narxoz.rpg.state;
 
 import com.narxoz.rpg.combatant.Hero;
-public class PoisonedState implements HeroState {
 
+public class PoisonedState implements HeroState {
     private int turnsRemaining;
     private static final int POISON_DAMAGE = 3;
     private static final double DAMAGE_MULTIPLIER = 0.7;
@@ -12,9 +12,7 @@ public class PoisonedState implements HeroState {
     }
 
     @Override
-    public String getName() {
-        return "Poisoned";
-    }
+    public String getName() { return "Poisoned"; }
 
     @Override
     public int modifyOutgoingDamage(int basePower) {
@@ -44,7 +42,5 @@ public class PoisonedState implements HeroState {
     }
 
     @Override
-    public boolean canAct() {
-        return true;
-    }
+    public boolean canAct() { return true; }
 }

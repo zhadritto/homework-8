@@ -1,8 +1,8 @@
 package com.narxoz.rpg.state;
 
 import com.narxoz.rpg.combatant.Hero;
-public class RegeneratingState implements HeroState {
 
+public class RegeneratingState implements HeroState {
     private int turnsRemaining;
     private static final int REGEN_AMOUNT = 5;
 
@@ -11,14 +11,10 @@ public class RegeneratingState implements HeroState {
     }
 
     @Override
-    public String getName() {
-        return "Regenerating";
-    }
+    public String getName() { return "Regenerating"; }
 
     @Override
-    public int modifyOutgoingDamage(int basePower) {
-        return basePower;
-    }
+    public int modifyOutgoingDamage(int basePower) { return basePower; }
 
     @Override
     public int modifyIncomingDamage(int rawDamage) {
@@ -48,7 +44,5 @@ public class RegeneratingState implements HeroState {
     }
 
     @Override
-    public boolean canAct() {
-        return true;
-    }
+    public boolean canAct() { return true; }
 }

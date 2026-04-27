@@ -1,8 +1,8 @@
 package com.narxoz.rpg.state;
 
 import com.narxoz.rpg.combatant.Hero;
-public class BerserkState implements HeroState {
 
+public class BerserkState implements HeroState {
     private int turnsRemaining;
     private static final double OUTGOING_MULTIPLIER = 1.5;
     private static final double INCOMING_MULTIPLIER = 1.4;
@@ -12,9 +12,7 @@ public class BerserkState implements HeroState {
     }
 
     @Override
-    public String getName() {
-        return "Berserk";
-    }
+    public String getName() { return "Berserk"; }
 
     @Override
     public int modifyOutgoingDamage(int basePower) {
@@ -43,7 +41,5 @@ public class BerserkState implements HeroState {
     }
 
     @Override
-    public boolean canAct() {
-        return true;
-    }
+    public boolean canAct() { return true; }
 }
